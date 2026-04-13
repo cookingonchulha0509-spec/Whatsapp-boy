@@ -39,7 +39,7 @@ client.on('message', async msg => {
         }, {
             headers: {
                 // APNI API KEY YAHAN DAALNI HAI
-                'Authorization': `Bearer YOUR_API_KEY_HERE`, 
+                'Authorization': `Bearer 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`, 
                 'Content-Type': 'application/json'
             }
         });
