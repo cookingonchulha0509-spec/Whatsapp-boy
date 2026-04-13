@@ -44,7 +44,7 @@ client.on('message', async msg => {
         }, {
             headers: {
                 // DHYAN RAHE: Niche wali line mein YOUR_API_KEY_HERE ki jagah apni key dalo
-                'Authorization': `Bearer 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`, 
+                'Authorization': `Bearer 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`, 
                 'Content-Type': 'application/json',
                 'HTTP-Referer': 'https://github.com/ai-wa-bot', 
                 'X-Title': 'WhatsApp Bot'
