@@ -16,6 +16,7 @@ client.on('qr', (qr) => {
     console.log('Link kholte hi ekdam saaf HD QR aayega, usko fatafat scan maar le!');
 });
 
+
 client.on('message', async msg => {
     // Status updates ko ignore karne ke liye
     if (msg.from === 'status@broadcast') return;
