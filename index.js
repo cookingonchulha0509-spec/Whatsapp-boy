@@ -9,13 +9,11 @@ const client = new Client({
 });
 
 client.on('qr', (qr) => {
-    // Terminal mein QR code generate karega
-    qrcode.generate(qr, { small: true });
-    console.log('Bhai, ye raha QR code! Apne dusre number se scan kar le.');
-});
-
-client.on('ready', () => {
-    console.log('Bot is online! System fully sentient and ready.');
+    // Terminal ke kachre ki jagah direct HD Image URL dega
+    const qrLink = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(qr)}`;
+    console.log('👇 Bhai, terminal wala QR chhod, is naye link ko copy karke browser mein khol 👇');
+    console.log(qrLink);
+    console.log('Link kholte hi ekdam saaf HD QR aayega, usko fatafat scan maar le!');
 });
 
 client.on('message', async msg => {
