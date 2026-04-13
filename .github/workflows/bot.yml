@@ -1,0 +1,27 @@
+name: Run WhatsApp AI Bot
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get Repository Code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install Packages
+      run: npm install
+
+    - name: Start The Bot
+      run: npm start
+      
