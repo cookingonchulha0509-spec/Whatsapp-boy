@@ -18,11 +18,17 @@ client.on('qr', (qr) => {
 
 
 client.on('message', async msg => {
-    // Status updates ko ignore karne ke liye
+    // 1. Faltu updates aur Groups ko puri tarah ignore karo
     if (msg.from === 'status@broadcast') return;
+    if (msg.from.includes('@g.us')) {
+        console.log('Group message ignore kiya.');
+        return;
+    }
 
     try {
-        // Nvidia Nemotron API Call (OpenRouter)
+        console.log(`Naya message aaya: ${msg.body}`);
+        
+        // Nvidia Nemotron API Call with Strong Headers
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
             model: 'nvidia/nemotron-3-super-120b-a12b:free',
             messages: [
@@ -37,9 +43,11 @@ client.on('message', async msg => {
             ]
         }, {
             headers: {
-                // APNI API KEY YAHAN DAALNI HAI
+                // DHYAN RAHE: Niche wali line mein YOUR_API_KEY_HERE ki jagah apni key dalo
                 'Authorization': `Bearer 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`, 
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'HTTP-Referer': 'https://github.com/ai-wa-bot', 
+                'X-Title': 'WhatsApp Bot'
             }
         });
 
@@ -47,7 +55,8 @@ client.on('message', async msg => {
         msg.reply(aiReply);
 
     } catch (error) {
-        console.error('API Error:', error);
+        // Asli error console mein print hoga taaki humein exact bimari pata chale
+        console.error('API Error ka Asli Reason:', error.response ? error.response.data : error.message);
         msg.reply('Thoda system stress aaya hai bhai, API server load nahi le raha. Ek minute baad try karna.');
     }
 });
