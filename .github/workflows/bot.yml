@@ -1,27 +1,23 @@
-name: Run WhatsApp AI Bot
+name: Innovation Hub Bot
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+  workflow_dispatch: # Yeh tumhe manually bot start/stop karne ka button dega
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Get Repository Code
-      uses: actions/checkout@v3
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+    - name: Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js (Latest Version)
+      uses: actions/setup-node@v4
       with:
-        node-version: '18'
-
+        node-version: '24.x' 
+        
     - name: Install Packages
       run: npm install
-
-    - name: Start The Bot
-      run: npm start
+      
+    - name: Start The AI Bot
+      run: node index.js
       
