@@ -1,23 +1,20 @@
 name: Innovation Hub Bot
 
 on:
-  workflow_dispatch: # Yeh tumhe manually bot start/stop karne ka button dega
+  workflow_dispatch:
 
 jobs:
-  run-bot:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
     
-    - name: Setup Node.js (Latest Version)
-      uses: actions/setup-node@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: '24.x' 
+        node-version: '24.x'
         
-    - name: Install Packages
-      run: npm install
-      
-    - name: Start The AI Bot
-      run: node index.js
-      
+    - run: npm install
+    
+    # Yahan humne direct node chala diya hai, npm start ka kalesh khatam!
+    - run: node index.js
+    
