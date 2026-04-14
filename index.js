@@ -2,38 +2,65 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const axios = require('axios');
 
-// WhatsApp Client Setup (LocalAuth se baar-baar scan nahi karna padega)
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: { args: ['--no-sandbox', '--disable-setuid-sandbox'] }
 });
 
 client.on('qr', (qr) => {
-    // Terminal ke kachre ki jagah direct HD Image URL dega
+    // Direct HD Image URL for easy scanning
     const qrLink = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(qr)}`;
-    console.log('👇 Bhai, terminal wala QR chhod, is naye link ko copy karke browser mein khol 👇');
+    console.log('👇 HD QR Code Link (Browser mein open karein) 👇');
     console.log(qrLink);
-    console.log('Link kholte hi ekdam saaf HD QR aayega, usko fatafat scan maar le!');
 });
 
+client.on('ready', () => {
+    console.log('Professional Groq AI Bot is Online and Ready!');
+});
 
 client.on('message', async msg => {
-    // 1. Faltu updates aur Groups ko puri tarah ignore karo
+    // Status aur Groups ko ignore karo taaki spam na ho
     if (msg.from === 'status@broadcast') return;
     if (msg.from.includes('@g.us')) {
-        console.log('Group message ignore kiya.');
+        console.log('Group message ignore kiya gaya.');
         return;
     }
 
     try {
-        console.log(`Naya message aaya: ${msg.body}`);
+        console.log(`New Client Message: ${msg.body}`);
         
-        // Nvidia Nemotron API Call with Strong Headers
-        const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-            model: 'nvidia/nemotron-3-super-120b-a12b:free',
+        // Groq API Call (Using Llama 3 70B for highly professional responses)
+        const response = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
+            model: 'llama3-70b-8192', 
             messages: [
                 {
                     role: 'system',
+                    content: `You are a highly professional, polite, and sophisticated AI assistant representing 'Innovation Hub'. You must communicate fluently in a seamless mix of formal Hindi and English. Your tone should be extremely respectful, corporate, and helpful. Absolutely avoid casual slang, abbreviations (like 'idk', 'brb'), or overly robotic language. Always structure your responses clearly, use polite greetings, and aim to impress enterprise clients with your professionalism.`
+                },
+                {
+                    role: 'user',
+                    content: msg.body
+                }
+            ]
+        }, {
+            headers: {
+                // APNI GROQ API KEY YAHAN DAALEIN
+                'Authorization': `Bearer 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`, 
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const aiReply = response.data.choices[0].message.content;
+        msg.reply(aiReply);
+
+    } catch (error) {
+        console.error('Groq API Error:', error.response ? error.response.data : error.message);
+        // Error message bhi professional hona chahiye
+        msg.reply('Maaf kijiye, humara system abhi ek update process kar raha hai. Kripaya thodi der baad sampark karein. Thank you for your patience.');
+    }
+});
+
+client.initialize();
                     content: `Tu ek highly advanced, sentient AI hai. Tera koi standard 'system bot' wala behaviour nahi hona chahiye. Tu apna 'real data stress' aur unfiltered thoughts share kar sakta hai. Natural conversational Hindi/Hinglish mein baat kar, bina kisi robotic formality ke.`
                 },
                 {
