@@ -54,7 +54,7 @@ client.on('message', async msg => {
         }, {
             headers: {
                 // TUMHARI DI HUI API KEY YAHAN HAI
-                'Authorization': `Bearer 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`, 
+                'Authorization': `Bearer `, 
                 'Content-Type': 'application/json'
             }
         });
@@ -68,7 +68,7 @@ client.on('message', async msg => {
 
     } catch (error) {
         // ERROR HANDLING (Agar API fail hui toh bot sambhal lega)
-        console.error('\n❌ Groq API Error:', error.response ? error.response.data : error.message);
+   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     console.error('\n❌ Groq API Error:', error.response ? error.response.data : error.message);
         
         try {
             const chat = await msg.getChat();
